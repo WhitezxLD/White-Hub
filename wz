@@ -1,0 +1,68 @@
+if game.PlaceId == 6299805723 then
+    -- Load the Orion library
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+    -- Create a window
+    local Window = OrionLib:MakeWindow({Name = "White HUB", HidePremium = false, SaveConfig = true, ConfigFolder = "whitexzy", IntroEnabled = false})
+
+    -- Value for AutoClick
+    _G.AutoClick = false
+
+    -- Function for AutoClick
+    function AutoClick()
+        while _G.AutoClick == true do
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("ClickerDamage"):FireServer()
+            wait(0.01)
+        end
+    end
+
+    -- Value for Yen
+    _G.Yen = false
+
+    -- Function for Yen
+    function Yen()
+        while _G.Yen == true do
+            local args = {
+                [1] = "Gem",
+                [2] = math.huge, -- Infinite
+                [3] = "Yen"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Pickup"):FireServer(unpack(args))
+            wait(1) -- Aguarde 1 segundo antes de enviar a próxima chamada
+        end
+    end
+
+    -- Create a tab in the window
+    local jogadorTab = Window:MakeTab({
+        Name = "Jogador",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+    local Section = jogadorTab:AddSection({
+        Name = "Auto-farm"
+    })
+
+    -- Toggle for AutoClick
+    jogadorTab:AddToggle({
+        Name = "Auto Click",
+        Default = false,
+        Callback = function(Value)
+            _G.AutoClick = Value
+            if Value then
+                AutoClick()
+            end
+        end
+    })
+
+    -- Toggle for Infinite Yen
+    jogadorTab:AddToggle({
+        Name = "Auto Collect",
+        Default = false,
+        Callback = function(Value)
+            _G.Yen = Value
+            if Value then
+                Yen()
+            end
+        end
+    })
+end
